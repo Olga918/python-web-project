@@ -1,0 +1,22 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Local / generated data (lesson 8)
+students.txt
+
+# IDE / OS
+.idea/
+.vscode/
+.cursor/
+*.swp
+Thumbs.db
+.DS_Store
