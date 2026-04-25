@@ -18,7 +18,6 @@ students.txt
 # IDE / OS
 .idea/
 .vscode/
-.cursor/
 *.swp
 Thumbs.db
 .DS_Store
