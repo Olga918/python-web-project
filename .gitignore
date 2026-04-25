@@ -5,6 +5,8 @@ env/
 
 # Python
 __pycache__/
+# Вивід з прикладу abstractClasses.py (Printable / B.print_file)
+Lesson5_1_oop_pt3/B.txt
 *.py[cod]
 *$py.class
 *.so
