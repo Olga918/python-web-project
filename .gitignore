@@ -15,6 +15,9 @@ Lesson5_1_oop_pt3/B.txt
 # Local / generated data (lesson 8)
 students.txt
 
+# Django local database
+*.sqlite3
+
 # IDE / OS
 .idea/
 .vscode/
