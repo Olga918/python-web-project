@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { border: 1px solid #ccc; padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+        th { background: #f4f4f4; }
+        a.button { display: inline-block; margin-top: 1rem; padding: 0.5rem 1rem; background: #2563eb; color: #fff; text-decoration: none; border-radius: 6px; }
+        a.delete { color: #b91c1c; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <h1>Список завдань</h1>
+    <p><a class="button" href="{% url 'task_add' %}">Додати завдання</a></p>
+    {% if tasks %}
+    <table>
+        <thead>
+            <tr>
+                <th>Заголовок</th>
+                <th>Текст</th>
+                <th>Початок</th>
+                <th>Завершення</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in tasks %}
+            <tr>
+                <td>{{ t.title }}</td>
+                <td>{{ t.text|linebreaksbr }}</td>
+                <td>{{ t.start_date }}</td>
+                <td>{{ t.end_date }}</td>
+                <td><a class="delete" href="{% url 'task_delete' id=t.id %}">Видалити</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Завдань поки немає.</p>
+    {% endif %}
+</body>
+</html>
