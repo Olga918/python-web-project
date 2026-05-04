@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextFormat</title>
+</head>
+<body>
+    <a href="{% url "startPage" %}">Go to page 'MainPage'</a>
+    {% with str="Hello" sample="test string" none=None float=10.34531234%}
+    <ul>
+        <li>{{str|add:", World"}}</li>
+        <li>{{sample|capfirst}}</li>
+        <li>{{sample|cut:"string"}}</li>
+        <li>{{none|default:"Value is None"}}</li>
+        <li>{{float|floatformat}}</li>
+        <li>{{float|floatformat:3}}</li>
+        <li>{{float|floatformat:-4}}</li>
+        <li>{{float|floatformat:0}}</li>
+    </ul>
+    <h3>List methods: </h3>
+    <ul>
+        <li>{{list|join:"->"}}</li>
+        <li>{{list|slice:"2::2"|join:'|'}}</li>
+        <li>{{list|length}}</li>
+        <li>{{dict|length}}</li>
+    </ul>
+    {% endwith %}
+
+</body>
+</html>

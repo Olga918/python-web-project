@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планувальник на день</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 40rem;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .category-heading {
+            margin: 1.25rem 0 0.5rem;
+            color: #1a5276;
+        }
+        ol {
+            padding-left: 1.5rem;
+        }
+        .task-row {
+            padding: 0.35rem 0.5rem;
+            margin-bottom: 0.25rem;
+            border-radius: 4px;
+        }
+        .task-row.done {
+            text-decoration: line-through;
+            opacity: 0.75;
+        }
+        .empty-msg {
+            text-align: center;
+            padding: 2rem;
+            color: #566573;
+            font-size: 1.1rem;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <a class="nav-link" href="{% url 'startPage' %}">На головну</a>
+
+    <h1>Задачі на сьогодні</h1>
+
+    {% if tasks %}
+        {% regroup tasks by category as tasks_by_category %}
+        {% for group in tasks_by_category %}
+            <h2 class="category-heading">{{ group.grouper }}</h2>
+            <ol>
+                {% for task in group.list %}
+                    <li
+                        style="background-color: {% cycle '#e8f4fc' '#fff7e6' %};"
+                        class="task-row {% if task.completed %}done{% endif %}"
+                    >
+                        {% if task.completed %}
+                            <span>{{ task.title }}</span>
+                            <span>(виконано)</span>
+                        {% else %}
+                            <strong>{{ task.title }}</strong>
+                        {% endif %}
+                        —
+                        {{ task.time }}
+                    </li>
+                {% endfor %}
+            </ol>
+        {% endfor %}
+    {% else %}
+        <p class="empty-msg">На сьогодні задач немає</p>
+    {% endif %}
+</body>
+</html>
