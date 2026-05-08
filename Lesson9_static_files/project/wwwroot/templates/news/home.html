@@ -1,0 +1,18 @@
+{% extends "news/base.html" %}
+
+{% block title %}Категорії — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+  <h1 class="header indigo-text text-darken-2">Категорії новин</h1>
+  {% if categories %}
+    <div class="collection category-list">
+      {% for cat in categories %}
+        <a href="{% url 'news:category' cat.slug %}" class="collection-item">
+          {{ cat.name }}
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Поки що немає категорій. Додайте їх у адмін-панелі Django.</p>
+  {% endif %}
+{% endblock %}

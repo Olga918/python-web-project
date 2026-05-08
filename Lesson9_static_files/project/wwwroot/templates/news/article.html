@@ -1,0 +1,29 @@
+{% extends "news/base.html" %}
+{% load static %}
+
+{% block title %}{{ article.title }} — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+  <p class="grey-text">
+    <a href="{% url 'news:home' %}">Головна</a>
+    <span> / </span>
+    <a href="{% url 'news:category' article.category.slug %}">{{ article.category.name }}</a>
+    <span> / </span>
+    <span>{{ article.title|truncatechars:50 }}</span>
+  </p>
+
+  <article>
+    <h1 class="header indigo-text text-darken-2">{{ article.title }}</h1>
+    <p class="grey-text">{{ article.published_at|date:"d.m.Y H:i" }}</p>
+    <div class="card" style="margin: 24px 0;">
+      <div class="card-image">
+        <img src="{% static article.image %}" alt="{{ article.title }}" class="portal-article-hero" />
+      </div>
+    </div>
+    <div class="flow-text article-body">{{ article.body|linebreaks }}</div>
+    <p style="margin-top: 24px;">
+      <a href="{% url 'news:category' article.category.slug %}" class="btn indigo darken-2">До категорії «{{ article.category.name }}»</a>
+      <a href="{% url 'news:home' %}" class="btn-flat">На головну</a>
+    </p>
+  </article>
+{% endblock %}
