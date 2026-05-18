@@ -1,0 +1,164 @@
+/* «Стара газета»: папір, дрібний шум, легкі лінії */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&display=swap');
+
+body.portal-newspaper {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Newsreader", Georgia, "Times New Roman", serif;
+  color: #2b241e;
+  background-color: #e8dcc4;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 23px,
+      rgba(74, 60, 40, 0.06) 23px,
+      rgba(74, 60, 40, 0.06) 24px
+    ),
+    radial-gradient(ellipse 120% 80% at 50% 0%, #f2e6d0 0%, #e0d2b8 45%, #d4c4a8 100%);
+}
+
+/* легка «зерністість» паперу */
+body.portal-newspaper::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+.portal-header {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(180deg, #4e342e 0%, #3e2723 100%);
+  color: #fff8e1;
+  padding: 1rem 0;
+  margin-bottom: 1.25rem;
+  border-bottom: 4px double rgba(255, 248, 225, 0.45);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.portal-header .brand {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-variant: small-caps;
+}
+
+.portal-header a {
+  color: #fff8e1;
+  text-decoration: none;
+}
+
+.portal-header a:hover {
+  text-decoration: underline;
+  color: #ffe082;
+}
+
+.portal-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 3rem;
+  padding: 1.5rem 0;
+  background: linear-gradient(180deg, #d7ccc8 0%, #bcaaa4 100%);
+  border-top: 3px double #5d4037;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.portal-footer a.site-name {
+  font-weight: 700;
+  color: #3e2723;
+  text-decoration: none;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+}
+
+.portal-footer a.site-name:hover {
+  text-decoration: underline;
+  color: #bf360c;
+}
+
+/* «аркуш» контенту поверх фону сторінки */
+.portal-sheet {
+  position: relative;
+  z-index: 1;
+  background: #faf6ef;
+  border: 1px solid rgba(62, 39, 35, 0.25);
+  box-shadow:
+    0 1px 1px rgba(62, 39, 35, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+h1.header,
+h1 {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 700;
+  border-bottom: 2px solid rgba(62, 39, 35, 0.25);
+  padding-bottom: 0.35rem;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.news-card {
+  border: 1px solid rgba(62, 39, 35, 0.2) !important;
+  box-shadow: 4px 4px 0 rgba(62, 39, 35, 0.12) !important;
+  background: #fffdf8 !important;
+}
+
+.news-card .card-image img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  /* легкий «газетний» тон, але фото залишається читабельним */
+  filter: sepia(0.08) contrast(1.03);
+}
+
+.news-card .card-action a {
+  color: #5d4037 !important;
+  font-weight: 600;
+}
+
+.category-list .collection-item {
+  border-color: rgba(62, 39, 35, 0.2) !important;
+  background: #fffdf8 !important;
+}
+
+.category-list .collection-item a {
+  font-size: 1.15rem;
+  color: #3e2723 !important;
+}
+
+.category-list .collection-item:hover {
+  background: #f5efe4 !important;
+}
+
+.portal-article-hero {
+  display: block;
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  filter: sepia(0.2) contrast(1.03);
+  border: 1px solid rgba(62, 39, 35, 0.25);
+}
+
+.article-body {
+  font-size: 1.1rem;
+  line-height: 1.65;
+}
+
+.portal-newspaper .btn.indigo.darken-2 {
+  background-color: #5d4037 !important;
+}
+
+.portal-newspaper .indigo-text.text-darken-2 {
+  color: #3e2723 !important;
+}

@@ -1,0 +1,39 @@
+{% extends "_layout.html" %}
+
+{% block form_content %}
+<h1>Register</h1>
+<form class="col s12" method="post" action="{% url "postUser" %}">
+    {% csrf_token %}
+
+    <!-- div set -->
+    
+    <div class="row">
+        <div class="input-field col s6">
+            {{form.name_field}}
+            <label for="{{form.name_field.id_for_label}}">{{form.name_field.label}}</label>
+        </div>
+         <div class="input-field col s6">
+            {{form.name_field2}}
+            <label for="{{form.name_field2.id_for_label}}">{{form.name_field2.label}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+            {{form.surname_field}}
+            <label for="{{ form.surname_field.id_for_label}}">{{form.surname_field.label}}</label>
+        </div>
+    </div>
+    
+    <!-- table -->
+    <!-- {{form.as_table}} -->
+    
+    <!-- Unordered list -->
+    <!-- {{form.as_ul}} -->
+
+    <!-- Paragraphs -->
+    <!-- {{form.as_p}} -->
+     
+
+    <button class="waves-effect waves-light btn indigo darken-4"><i class="material-icons left">login</i>Register</button>
+</form>
+{% endblock form_content %}
