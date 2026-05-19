@@ -3,49 +3,103 @@
 
 {% block title %}Фільми — головна{% endblock %}
 
+{% block extra_css %}
+<style>
+.movies-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 24px !important;
+}
+.movie-card {
+    margin: 0 !important;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(26, 35, 126, 0.1);
+}
+.movie-card__link { display: block; text-decoration: none; color: inherit; }
+.movie-card__poster {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: #1a237e;
+}
+.movie-card__poster img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+}
+.movie-card__shade {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.85), transparent 60%);
+}
+.movie-card__title {
+    position: absolute !important;
+    left: 0; right: 0; bottom: 10px;
+    margin: 0 !important;
+    padding: 0 12px;
+    font-size: 1.1rem !important;
+    color: #fff !important;
+    z-index: 2;
+}
+.movie-card__info {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 12px 14px;
+}
+@media (max-width: 992px) {
+    .movies-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (max-width: 600px) {
+    .movies-grid { grid-template-columns: 1fr !important; }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row">
-    <div class="col s12">
-        <h4>Каталог фільмів</h4>
-        <a href="{% url 'movieAdd' %}" class="btn waves-effect waves-light indigo darken-4">
-            <i class="material-icons left">add</i>Додати фільм
-        </a>
+<div class="page-header">
+    <div>
+        <h4 class="page-header__title">Каталог фільмів</h4>
+        <p class="page-header__subtitle">Оберіть фільм, щоб переглянути деталі</p>
     </div>
+    <a href="{% url 'movieAdd' %}" class="btn waves-effect waves-light indigo darken-4">
+        <i class="material-icons left">add</i>Додати фільм
+    </a>
 </div>
 
 {% if movies %}
-<div class="row">
+<div class="movies-grid">
     {% for movie in movies %}
-    <div class="col s12 m6 l4">
-        <div class="card hoverable movie-card">
-            <div class="card-image movie-card__poster">
+    <article class="movie-card">
+        <a href="{% url 'movieDetail' movie.pk %}" class="movie-card__link">
+            <div class="movie-card__poster">
                 {% if movie.poster %}
-                <img src="{{ movie.poster.url }}" alt="Постер: {{ movie.title }}">
+                <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
                 {% else %}
-                <img src="{% static 'assets/firefox.jpg' %}" alt="Постер: {{ movie.title }}">
+                <img src="{% static 'assets/firefox.jpg' %}" alt="{{ movie.title }}">
                 {% endif %}
+                <div class="movie-card__shade"></div>
+                <h3 class="movie-card__title">{{ movie.title }}</h3>
             </div>
-            <div class="card-content">
-                <span class="card-title movie-card__title">{{ movie.title }}</span>
-                <p class="movie-card__meta">
-                    <i class="material-icons tiny">event</i>
-                    <strong>Дата виходу:</strong> {{ movie.release_date|date:"d.m.Y" }}
-                </p>
-                <p class="movie-card__meta">
-                    <i class="material-icons tiny">public</i>
-                    <strong>Країна:</strong> {{ movie.country }}
-                </p>
+            <div class="movie-card__info">
+                <span class="movie-card__badge">
+                    <i class="material-icons tiny">event</i>{{ movie.release_date|date:"d.m.Y" }}
+                </span>
+                <span class="movie-card__badge movie-card__badge--country">
+                    <i class="material-icons tiny">public</i>{{ movie.country }}
+                </span>
             </div>
-            <div class="card-action">
-                <a href="{% url 'movieDetail' movie.pk %}">Детальніше</a>
-            </div>
-        </div>
-    </div>
+        </a>
+    </article>
     {% endfor %}
 </div>
 {% else %}
-<div class="card-panel teal lighten-4">
-    Поки немає фільмів. <a href="{% url 'movieAdd' %}">Додайте перший</a>.
+<div class="empty-state">
+    <i class="material-icons large">movie</i>
+    <p>Поки немає фільмів</p>
+    <a href="{% url 'movieAdd' %}" class="btn indigo darken-4">Додайте перший</a>
 </div>
 {% endif %}
 {% endblock content %}
