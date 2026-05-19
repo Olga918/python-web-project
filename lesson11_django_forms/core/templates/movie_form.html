@@ -1,0 +1,38 @@
+{% extends "_layout.html" %}
+
+{% block title %}Додати фільм{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col s12 m8 offset-m2">
+        <div class="card indigo lighten-5">
+            <div class="card-content">
+                <span class="card-title">Новий фільм</span>
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="row">
+                        <div class="input-field col s12">
+                            {% if field.name == "poster" %}
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% else %}
+                            {{ field }}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {% endif %}
+                            {% for error in field.errors %}
+                            <span class="helper-text red-text">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn waves-effect waves-light indigo darken-4">
+                        <i class="material-icons left">save</i>Зберегти
+                    </button>
+                    <a href="{% url 'movieList' %}" class="btn-flat">Скасувати</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
