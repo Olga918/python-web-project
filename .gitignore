@@ -17,6 +17,10 @@ students.txt
 
 # Django local database
 *.sqlite3
+db.sqlite3-journal
+
+# Secrets
+.env
 
 # IDE / OS
 .idea/
