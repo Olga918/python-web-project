@@ -18,12 +18,31 @@
     </div>
     <div class="col s12 m8">
         <h4>{{ movie.title }}</h4>
+        <p>
+            <strong>Рейтинг:</strong>
+            <span style="color: #f9a825;">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= movie.rating %}
+                    <i class="material-icons tiny">star</i>
+                    {% else %}
+                    <i class="material-icons tiny">star_border</i>
+                    {% endif %}
+                {% endfor %}
+            </span>
+            ({{ movie.rating }}/5)
+        </p>
         <p><strong>Дата виходу:</strong> {{ movie.release_date|date:"d.m.Y" }}</p>
         <p><strong>Країна:</strong> {{ movie.country }}</p>
         <p><strong>Опис:</strong></p>
         <p>{{ movie.description }}</p>
         <a href="{% url 'movieList' %}" class="btn indigo darken-4">
             <i class="material-icons left">arrow_back</i>До списку
+        </a>
+        <a href="{% url 'movieEdit' movie.pk %}" class="btn orange darken-2">
+            <i class="material-icons left">edit</i>Редагувати
+        </a>
+        <a href="{% url 'movieDelete' movie.pk %}" class="btn red darken-2">
+            <i class="material-icons left">delete</i>Видалити
         </a>
     </div>
 </div>

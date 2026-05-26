@@ -8,22 +8,83 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .form import MovieForm, UserForm
 from .models import Movie
 
+SORT_OPTIONS = {
+    "rating": "rating",
+    "title": "title",
+    "release_date": "-release_date",
+}
+
 
 def movie_list(request: HttpRequest):
-    movies = Movie.objects.all()
-    return render(request, "movies_list.html", {"movies": movies})
+    sort = request.GET.get("sort", "release_date")
+    order_by = SORT_OPTIONS.get(sort, "-release_date")
+    movies = Movie.objects.all().order_by(order_by)
+    return render(
+        request,
+        "movies_list.html",
+        {"movies": movies, "current_sort": sort},
+    )
 
 
 def movie_add(request: HttpRequest):
     if request.method == "GET":
-        return render(request, "movie_form.html", {"form": MovieForm()})
+        return render(
+            request,
+            "movie_form.html",
+            {"form": MovieForm(), "form_title": "Новий фільм"},
+        )
 
     if request.method == "POST":
         form = MovieForm(request.POST, request.FILES)
         if form.is_valid():
             movie = form.save()
             return redirect("movieDetail", pk=movie.pk)
-        return render(request, "movie_form.html", {"form": form})
+        return render(
+            request,
+            "movie_form.html",
+            {"form": form, "form_title": "Новий фільм"},
+        )
+
+    return HttpResponseNotAllowed(["GET", "POST"])
+
+
+def movie_edit(request: HttpRequest, pk: int):
+    movie = get_object_or_404(Movie, pk=pk)
+
+    if request.method == "GET":
+        return render(
+            request,
+            "movie_form.html",
+            {
+                "form": MovieForm(instance=movie),
+                "form_title": "Редагувати фільм",
+                "movie": movie,
+            },
+        )
+
+    if request.method == "POST":
+        form = MovieForm(request.POST, request.FILES, instance=movie)
+        if form.is_valid():
+            movie = form.save()
+            return redirect("movieDetail", pk=movie.pk)
+        return render(
+            request,
+            "movie_form.html",
+            {"form": form, "form_title": "Редагувати фільм", "movie": movie},
+        )
+
+    return HttpResponseNotAllowed(["GET", "POST"])
+
+
+def movie_delete(request: HttpRequest, pk: int):
+    movie = get_object_or_404(Movie, pk=pk)
+
+    if request.method == "GET":
+        return render(request, "movie_delete.html", {"movie": movie})
+
+    if request.method == "POST":
+        movie.delete()
+        return redirect("movieList")
 
     return HttpResponseNotAllowed(["GET", "POST"])
 

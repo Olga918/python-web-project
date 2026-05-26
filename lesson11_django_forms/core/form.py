@@ -7,12 +7,20 @@ from .models import Movie
 class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
-        fields = ["title", "description", "release_date", "country", "poster"]
+        fields = [
+            "title",
+            "description",
+            "release_date",
+            "country",
+            "rating",
+            "poster",
+        ]
         labels = {
             "title": "Назва фільму",
             "description": "Опис фільму",
             "release_date": "Дата виходу",
             "country": "Країна",
+            "rating": "Рейтинг (1–5)",
             "poster": "Постер",
         }
         widgets = {
@@ -20,6 +28,9 @@ class MovieForm(forms.ModelForm):
             "description": widgets.Textarea(attrs={"class": "materialize-textarea"}),
             "release_date": widgets.DateInput(attrs={"class": "validate", "type": "date"}),
             "country": widgets.TextInput(attrs={"class": "validate"}),
+            "rating": widgets.NumberInput(
+                attrs={"class": "validate", "min": 1, "max": 5, "step": 1}
+            ),
         }
 
 
