@@ -1,0 +1,32 @@
+{% extends "_layout.html" %}
+
+{% block productList %}
+<h1>Products: </h1>
+<a href="{% url "product-create" %}">Add product</a>
+<hr>
+<ul>
+    {% for product in products %}
+    <li>
+        <b>{{product.name}} - {{product.price}}</b>
+        <br>
+        <small>Category: 
+            {% if product.category %}
+                {{product.category.name}}
+            {% else %}
+                No category
+            {% endif %}
+        </small>
+        <br>
+        <small>Tags: 
+            {% for tag in product.tags.all %}
+                <span>[{{tag.name}}]</span>
+            {%empty%}
+                No tags
+            {% endfor %}
+        </small>
+    </li>
+    {%empty%}
+        <li>No products</li>
+    {% endfor %}
+</ul>
+{% endblock productList %}

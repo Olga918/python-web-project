@@ -1,0 +1,51 @@
+{% extends "forum/base.html" %}
+
+{% block title %}Редагування профілю — Форум{% endblock %}
+
+{% block content %}
+<section class="auth-card auth-card--wide">
+    <h1>Редагування профілю</h1>
+    <p class="auth-card__hint">Змініть дані або пароль.</p>
+
+    <h2 class="form-section-title">Особисті дані</h2>
+    <form method="post" enctype="multipart/form-data" class="auth-form" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="save_profile" value="1">
+
+        {% for field in profile_form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.name == "avatar" and user.avatar %}
+            <p class="form-hint">Зараз: <a href="{{ user.avatar.url }}" target="_blank">переглянути</a></p>
+            {% endif %}
+            {% for error in field.errors %}
+            <span class="field-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn--primary btn--block">Зберегти зміни</button>
+    </form>
+
+    <h2 class="form-section-title">Зміна пароля</h2>
+    <form method="post" class="auth-form" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="change_password" value="1">
+
+        {% for field in password_form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}
+            <span class="field-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn--outline btn--block">Змінити пароль</button>
+    </form>
+
+    <a href="{% url 'forum:profile' %}" class="btn btn--outline btn--block">Назад до профілю</a>
+</section>
+{% endblock %}

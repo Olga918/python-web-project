@@ -19,6 +19,9 @@ students.txt
 *.sqlite3
 db.sqlite3-journal
 
+# User uploads (Django MEDIA_ROOT)
+media/
+
 # Secrets
 .env
 

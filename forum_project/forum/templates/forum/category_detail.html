@@ -1,0 +1,191 @@
+{% extends "forum/base.html" %}
+
+
+
+{% block title %}{{ category.name }} — Форум{% endblock %}
+
+
+
+{% block content %}
+
+<nav class="breadcrumb">
+
+    <a href="{% url 'forum:home' %}">Головна</a>
+
+    <span class="breadcrumb__sep">/</span>
+
+    <span>{{ category.name }}</span>
+
+</nav>
+
+
+
+<section class="category-head">
+
+    <div class="category-head__main">
+
+        {% if category.image %}
+
+        <img src="{{ category.image.url }}" alt="" class="category-head__img">
+
+        {% else %}
+
+        <div class="category-head__img category-head__img--placeholder" aria-hidden="true">💬</div>
+
+        {% endif %}
+
+        <div>
+
+            <h1>{{ category.name }}</h1>
+
+            <p class="category-head__desc">{{ category.description }}</p>
+
+            {% if category.author %}
+
+            <p class="category-head__meta">Автор категорії: <strong>{{ category.author.nickname }}</strong></p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% if can_delete_category %}
+
+    <a href="{% url 'forum:category_delete' category.pk %}" class="btn btn--danger btn--sm">Видалити категорію</a>
+
+    {% endif %}
+
+</section>
+
+
+
+{% if user.is_authenticated %}
+<section class="panel panel--new-post">
+    <h2 class="panel__title">Новий пост</h2>
+    <p class="panel__hint">Ви увійшли як <strong>{{ user.nickname }}</strong>. Напишіть текст у полі та натисніть «Опублікувати».</p>
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        <input type="hidden" name="create_post" value="1">
+        <div class="form-group">
+            <label for="{{ post_form.text.id_for_label }}">{{ post_form.text.label }}</label>
+            {{ post_form.text }}
+            {% for error in post_form.text.errors %}
+            <span class="field-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn--primary">Опублікувати</button>
+    </form>
+</section>
+{% else %}
+<section class="panel panel--guest">
+    <p class="panel__hint">Щоб писати пости, спочатку увійдіть у обліковий запис.</p>
+    <a href="{% url 'forum:login' %}?next={{ request.path }}" class="btn btn--primary">Увійти</a>
+    <a href="{% url 'forum:register' %}?next={{ request.path }}" class="btn btn--outline">Реєстрація</a>
+</section>
+{% endif %}
+
+
+
+<section class="page-head">
+
+    <h2>Пости в категорії</h2>
+
+</section>
+
+
+
+{% if posts %}
+
+<div class="post-cards">
+
+    {% for post in posts %}
+
+    <article class="post-card">
+
+        <header class="post-card__head">
+
+            <span class="post-card__author">{{ post.author.nickname }}</span>
+
+            <time class="post-card__date" datetime="{{ post.created_at|date:'c' }}">
+
+                {{ post.created_at|date:"d.m.Y H:i" }}
+
+            </time>
+
+        </header>
+
+        <p class="post-card__text">{{ post.text|truncatewords:40 }}</p>
+
+        <footer class="post-card__foot">
+
+            <div class="post-card__stats">
+
+                {% if user.is_authenticated %}
+
+                <form method="post" action="{% url 'forum:post_like_toggle' post.pk %}" class="like-form">
+
+                    {% csrf_token %}
+
+                    <input type="hidden" name="next" value="{{ request.path }}">
+
+                    <button type="submit" class="like-btn{% if post.user_liked %} like-btn--active{% endif %}" title="Лайк">
+
+                        ♥ {{ post.like_count }}
+
+                    </button>
+
+                </form>
+
+                {% else %}
+
+                <span class="like-btn like-btn--readonly">♥ {{ post.like_count }}</span>
+
+                {% endif %}
+
+                <span class="post-card__comments">💬 {{ post.comment_count }}</span>
+
+            </div>
+
+            <div class="post-card__actions">
+
+                <a href="{% url 'forum:post_detail' post.pk %}" class="btn btn--outline btn--sm">До обговорення →</a>
+
+                {% if user.is_authenticated %}{% if user.pk == post.author_id or user.is_superuser %}
+
+                <form method="post" action="{% url 'forum:post_delete' post.pk %}" class="inline-form"
+
+                      onsubmit="return confirm('Видалити цей пост і всі коментарі?');">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn--danger btn--sm">Видалити</button>
+
+                </form>
+
+                {% endif %}{% endif %}
+
+            </div>
+
+        </footer>
+
+    </article>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="empty">
+
+    <p class="empty__title">Поки немає постів</p>
+
+    <p class="empty__text">Будьте першим — напишіть пост вище.</p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
+

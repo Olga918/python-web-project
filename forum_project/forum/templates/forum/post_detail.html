@@ -1,0 +1,210 @@
+{% extends "forum/base.html" %}
+
+
+
+{% block title %}Обговорення — Форум{% endblock %}
+
+
+
+{% block content %}
+
+<nav class="breadcrumb">
+
+    <a href="{% url 'forum:home' %}">Головна</a>
+
+    <span class="breadcrumb__sep">/</span>
+
+    <a href="{% url 'forum:category_detail' post.category.pk %}">{{ post.category.name }}</a>
+
+    <span class="breadcrumb__sep">/</span>
+
+    <span>Обговорення</span>
+
+</nav>
+
+
+
+<article class="post-full panel">
+
+    <header class="post-full__head">
+
+        <span class="post-card__author">{{ post.author.nickname }}</span>
+
+        <time class="post-card__date" datetime="{{ post.created_at|date:'c' }}">
+
+            {{ post.created_at|date:"d.m.Y H:i" }}
+
+        </time>
+
+    </header>
+
+    <p class="post-full__text">{{ post.text }}</p>
+
+    <footer class="post-full__foot">
+
+        {% if user.is_authenticated %}
+
+        <form method="post" action="{% url 'forum:post_like_toggle' post.pk %}" class="like-form">
+
+            {% csrf_token %}
+
+            <input type="hidden" name="next" value="{{ request.path }}">
+
+            <button type="submit" class="like-btn{% if user_liked_post %} like-btn--active{% endif %}">
+
+                ♥ {{ like_count }}
+
+            </button>
+
+        </form>
+
+        {% else %}
+
+        <span class="like-btn like-btn--readonly">♥ {{ like_count }}</span>
+
+        {% endif %}
+
+        {% if can_delete_post %}
+
+        <form method="post" action="{% url 'forum:post_delete' post.pk %}" class="inline-form"
+
+              onsubmit="return confirm('Видалити пост і всі коментарі?');">
+
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn--danger btn--sm">Видалити пост</button>
+
+        </form>
+
+        {% endif %}
+
+    </footer>
+
+</article>
+
+
+
+<section class="comments-section">
+
+    <h2>Коментарі ({{ comments|length }})</h2>
+
+
+
+    {% if comments %}
+
+    <ul class="comment-list">
+
+        {% for comment in comments %}
+
+        <li class="comment">
+
+            <header class="comment__head">
+
+                <span class="post-card__author">{{ comment.author.nickname }}</span>
+
+                <time class="post-card__date">{{ comment.created_at|date:"d.m.Y H:i" }}</time>
+
+            </header>
+
+            <p class="comment__text">{{ comment.text }}</p>
+
+            <footer class="comment__foot">
+
+                {% if user.is_authenticated %}
+
+                <form method="post" action="{% url 'forum:comment_like_toggle' comment.pk %}" class="like-form">
+
+                    {% csrf_token %}
+
+                    <input type="hidden" name="next" value="{{ request.path }}">
+
+                    <button type="submit" class="like-btn{% if comment.user_liked %} like-btn--active{% endif %}">
+
+                        ♥ {{ comment.like_count }}
+
+                    </button>
+
+                </form>
+
+                {% else %}
+
+                <span class="like-btn like-btn--readonly">♥ {{ comment.like_count }}</span>
+
+                {% endif %}
+
+                {% if user.is_authenticated %}{% if user.pk == comment.author_id or user.is_superuser %}
+
+                <form method="post" action="{% url 'forum:comment_delete' comment.pk %}" class="inline-form"
+
+                      onsubmit="return confirm('Видалити коментар?');">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn--danger btn--sm">Видалити</button>
+
+                </form>
+
+                {% endif %}{% endif %}
+
+            </footer>
+
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+    {% else %}
+
+    <p class="empty__text">Коментарів ще немає — напишіть перший.</p>
+
+    {% endif %}
+
+
+
+    {% if user.is_authenticated %}
+
+    <section class="panel panel--comment-form">
+
+        <h3>Додати коментар</h3>
+
+        <form method="post" novalidate>
+
+            {% csrf_token %}
+
+            <input type="hidden" name="create_comment" value="1">
+
+            <div class="form-group">
+
+                <label for="{{ comment_form.text.id_for_label }}">{{ comment_form.text.label }}</label>
+
+                {{ comment_form.text }}
+
+                {% for error in comment_form.text.errors %}
+
+                <span class="field-error">{{ error }}</span>
+
+                {% endfor %}
+
+            </div>
+
+            <button type="submit" class="btn btn--primary">Надіслати</button>
+
+        </form>
+
+    </section>
+
+    {% else %}
+
+    <p class="auth-hint">
+
+        <a href="{% url 'forum:login' %}?next={{ request.path }}">Увійдіть</a>, щоб коментувати.
+
+    </p>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
+

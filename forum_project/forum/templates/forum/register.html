@@ -1,0 +1,39 @@
+{% extends "forum/base.html" %}
+
+{% block title %}Реєстрація — Форум{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <h1>Реєстрація</h1>
+    <p class="auth-card__hint">Створіть обліковий запис, щоб публікувати та обговорювати теми.</p>
+
+    <form method="post" class="auth-form" novalidate>
+        {% csrf_token %}
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+
+        {% if form.non_field_errors %}
+        <ul class="form-errors">
+            {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}
+            <span class="field-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn--primary btn--block">Зареєструватися</button>
+    </form>
+
+    <p class="auth-card__footer">
+        Вже є акаунт? <a href="{% url 'forum:login' %}{% if next %}?next={{ next }}{% endif %}">Увійти</a>
+    </p>
+</section>
+{% endblock %}

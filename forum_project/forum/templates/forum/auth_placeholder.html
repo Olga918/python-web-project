@@ -1,0 +1,11 @@
+{% extends "forum/base.html" %}
+
+{% block title %}{{ title }} — Форум{% endblock %}
+
+{% block content %}
+<section class="empty">
+    <p class="empty__title">{{ title }}</p>
+    <p class="empty__text">Сторінка з’явиться на наступному етапі розробки.</p>
+    <a href="{% url 'forum:home' %}" class="btn btn--primary" style="margin-top:16px">На головну</a>
+</section>
+{% endblock %}

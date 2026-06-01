@@ -1,0 +1,33 @@
+{% extends "forum/base.html" %}
+
+{% block title %}Профіль — {{ profile_user.nickname }}{% endblock %}
+
+{% block content %}
+<section class="profile">
+    <div class="profile__header">
+        <div class="profile__avatar-wrap">
+            {% if profile_user.avatar %}
+            <img src="{{ profile_user.avatar.url }}" alt="{{ profile_user.nickname }}" class="profile__avatar">
+            {% else %}
+            <div class="profile__avatar profile__avatar--placeholder">{{ profile_user.nickname|slice:":1"|upper }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <h1>{{ profile_user.nickname }}</h1>
+            <p class="profile__fullname">{{ profile_user.first_name }} {{ profile_user.last_name }}</p>
+            <a href="{% url 'forum:profile_edit' %}" class="btn btn--primary">Редагувати профіль</a>
+        </div>
+    </div>
+
+    <dl class="profile__info">
+        <dt>Нікнейм</dt>
+        <dd>{{ profile_user.nickname }}</dd>
+        <dt>Електронна пошта</dt>
+        <dd>{{ profile_user.email }}</dd>
+        <dt>Дата народження</dt>
+        <dd>{% if profile_user.birth_date %}{{ profile_user.birth_date|date:"d.m.Y" }}{% else %}—{% endif %}</dd>
+        <dt>Дата реєстрації</dt>
+        <dd>{{ profile_user.date_joined|date:"d.m.Y" }}</dd>
+    </dl>
+</section>
+{% endblock %}

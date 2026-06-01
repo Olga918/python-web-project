@@ -1,0 +1,18 @@
+{% extends "forum/base.html" %}
+
+{% block title %}Видалити категорію — Форум{% endblock %}
+
+{% block content %}
+<section class="auth-card auth-card--wide">
+    <h1>Видалити категорію?</h1>
+    <p class="auth-card__hint">
+        Категорія <strong>«{{ category.name }}»</strong> буде видалена разом із усіма постами та коментарями.
+        Цю дію не можна скасувати.
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn--danger btn--block">Так, видалити</button>
+        <a href="{% url 'forum:category_detail' category.pk %}" class="btn btn--outline btn--block">Скасувати</a>
+    </form>
+</section>
+{% endblock %}

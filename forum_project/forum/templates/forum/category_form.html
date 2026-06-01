@@ -1,0 +1,31 @@
+{% extends "forum/base.html" %}
+
+{% block title %}Нова категорія — Форум{% endblock %}
+
+{% block content %}
+<section class="auth-card auth-card--wide">
+    <h1>Створити категорію</h1>
+    <p class="auth-card__hint">
+        <strong>Іконка:</strong> оберіть файл з комп’ютера (.jpg, .png) — він збережеться в папку
+        <code>media/categories/</code> і з’явиться на картці категорії.
+        Якщо файл не вибрати — на головній буде сіра заглушка 💬 (як у ТЗ).
+    </p>
+
+    <form method="post" enctype="multipart/form-data" class="auth-form" novalidate>
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}
+            <span class="field-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn--primary btn--block">Зберегти</button>
+        <a href="{% url 'forum:home' %}" class="btn btn--outline btn--block">Скасувати</a>
+    </form>
+</section>
+{% endblock %}
