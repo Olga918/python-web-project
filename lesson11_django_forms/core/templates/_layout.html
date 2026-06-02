@@ -19,6 +19,9 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="{% url 'movieList' %}">Головна</a></li>
                 <li><a href="{% url 'movieAdd' %}">Додати фільм</a></li>
+                {% if user.is_staff %}
+                <li><a href="{% url 'admin:index' %}">Адмін</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>

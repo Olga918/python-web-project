@@ -1,0 +1,50 @@
+/* Кастомні стилі адмінки — в тоні сайту (indigo / Materialize) */
+:root {
+    --movie-admin-primary: #283593;
+    --movie-admin-accent: #3949ab;
+}
+
+#header {
+    background: var(--movie-admin-primary) !important;
+}
+
+#branding h1,
+#branding #site-name a {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.module h2,
+#content h1 {
+    color: var(--movie-admin-primary);
+}
+
+div.breadcrumbs {
+    background: var(--movie-admin-accent) !important;
+}
+
+div.breadcrumbs a {
+    color: #e8eaf6 !important;
+}
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input {
+    background: var(--movie-admin-accent) !important;
+}
+
+.button:hover,
+input[type="submit"]:hover,
+.submit-row input:hover {
+    background: var(--movie-admin-primary) !important;
+}
+
+#changelist-filter h2 {
+    background: var(--movie-admin-primary);
+}
+
+#result_list thead th {
+    background: #e8eaf6;
+    color: #1a237e;
+}
