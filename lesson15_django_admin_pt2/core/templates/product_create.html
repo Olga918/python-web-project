@@ -1,0 +1,9 @@
+{% extends "_layout.html" %}
+
+{% block productCreate %}
+<form method="post">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">Create product</button>
+</form>
+{% endblock productCreate %}

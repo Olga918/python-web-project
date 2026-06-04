@@ -1,0 +1,19 @@
+{% extends "_layout.html" %}
+
+{% block register %}
+{% if button %}
+<form action="{% url "login_view" %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">{{button}}</button>
+</form>
+{% else %}
+
+<form action="{% url "new_user" %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">Sign Up</button>
+</form>
+{% endif %}
+{% endblock register %}
+
