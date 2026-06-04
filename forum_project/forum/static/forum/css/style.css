@@ -148,3 +148,7 @@ body { margin: 0; font-family: system-ui, sans-serif; background: #f4f6f8; color
 .comment__head { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
 .comment__text { margin: 0 0 10px; white-space: pre-wrap; }
 .comment__foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.auth-page__hint { color: #546e7a; margin: 0 0 20px; }
+.auth-page__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 24px; }
+.btn--danger { background: #c62828; color: #fff; border: none; cursor: pointer; }
+.btn--danger:hover { background: #b71c1c; }

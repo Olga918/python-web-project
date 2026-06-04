@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import login, update_session_auth_hash
+from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Exists, OuterRef
 from django.http import HttpResponseForbidden
@@ -19,7 +19,7 @@ from .forms import (
 from .models import Category, Comment, CommentLike, Post, PostLike
 
 
-def _redirect_next(request, default_name="forum:home"):
+def _redirect_next(request, default_name="forum:auth_page"):
     next_url = request.GET.get("next") or request.POST.get("next")
     if next_url:
         return redirect(next_url)
@@ -119,6 +119,19 @@ def login_page(request):
         "forum/login.html",
         {"form": form, "next": request.GET.get("next", "")},
     )
+
+
+@login_required
+def auth_page(request):
+    """Сторінка авторизованого користувача (домашка урок 15)."""
+    return render(request, "forum/auth_page.html", {"profile_user": request.user})
+
+
+@require_POST
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Ви вийшли з облікового запису.")
+    return redirect("forum:login")
 
 
 @require_http_methods(["GET", "POST"])

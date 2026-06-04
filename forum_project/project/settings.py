@@ -98,5 +98,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = "forum:login"
-LOGIN_REDIRECT_URL = "forum:home"
-LOGOUT_REDIRECT_URL = "forum:home"
+LOGIN_REDIRECT_URL = "forum:auth_page"
+LOGOUT_REDIRECT_URL = "forum:login"

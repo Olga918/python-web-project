@@ -1,19 +1,41 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
+from django.contrib.auth.forms import (
+    PasswordChangeForm,
+    ReadOnlyPasswordHashField,
+    UserChangeForm as DjangoUserChangeForm,
+    UserCreationForm,
+)
 
 from .models import Category, Comment, Post, User
 
 
-class RegisterForm(UserCreationForm):
+class ForumUserChangeForm(DjangoUserChangeForm):
+    """Редагування користувача в адмінці (урок 15)."""
+
+    password = ReadOnlyPasswordHashField(label="Пароль")
+
+    class Meta(DjangoUserChangeForm.Meta):
+        model = User
+        fields = "__all__"
+
+
+class ForumUserCreationForm(UserCreationForm):
+    """Базова форма створення користувача з перевіркою пароля (урок 15)."""
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ("nickname", "email", "first_name", "last_name", "birth_date")
+
+
+class RegisterForm(ForumUserCreationForm):
     birth_date = forms.DateField(
         required=True,
         label="Дата народження",
         widget=forms.DateInput(attrs={"type": "date", "class": "form-input"}),
     )
 
-    class Meta(UserCreationForm.Meta):
-        model = User
+    class Meta(ForumUserCreationForm.Meta):
         fields = (
             "nickname",
             "email",
@@ -38,16 +60,37 @@ class RegisterForm(UserCreationForm):
 class LoginForm(forms.Form):
     nickname = forms.CharField(
         label="Нікнейм",
-        widget=forms.TextInput(attrs={"class": "form-input", "autofocus": True}),
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-input",
+                "autofocus": True,
+                "autocomplete": "username",
+                "placeholder": "olga_lesson15",
+            }
+        ),
     )
     password = forms.CharField(
         label="Пароль",
-        widget=forms.PasswordInput(attrs={"class": "form-input"}),
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "form-input",
+                "autocomplete": "current-password",
+                "placeholder": "Ваш пароль",
+            }
+        ),
     )
 
     def __init__(self, request=None, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+
+    def clean_nickname(self):
+        nickname = (self.cleaned_data.get("nickname") or "").strip()
+        if "@" in nickname:
+            raise forms.ValidationError(
+                "Тут потрібен нікнейм, а не email. Наприклад: olga_lesson15"
+            )
+        return nickname
 
     def clean(self):
         cleaned = super().clean()

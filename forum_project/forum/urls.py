@@ -1,4 +1,3 @@
-from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from . import views
@@ -8,8 +7,11 @@ app_name = "forum"
 urlpatterns = [
     path("", views.home, name="home"),
     path("register/", views.register_page, name="register"),
+    path("signup/", views.register_page, name="signup"),
     path("login/", views.login_page, name="login"),
-    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("signin/", views.login_page, name="signin"),
+    path("auth/", views.auth_page, name="auth_page"),
+    path("logout/", views.logout_view, name="logout"),
     path("category/create/", views.category_create, name="category_create"),
     path("category/<int:pk>/", views.category_detail, name="category_detail"),
     path(

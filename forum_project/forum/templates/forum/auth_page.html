@@ -1,0 +1,33 @@
+{% extends "forum/base.html" %}
+
+{% block title %}Мій кабінет — Форум{% endblock %}
+
+{% block content %}
+<section class="profile auth-page">
+    <h1>Вітаємо, {{ profile_user.first_name }}!</h1>
+    <p class="auth-page__hint">Ви успішно увійшли на форум. Це ваша сторінка після аутентифікації (урок 15).</p>
+
+    <dl class="profile__info">
+        <dt>Нікнейм</dt>
+        <dd>{{ profile_user.nickname }}</dd>
+        <dt>Email</dt>
+        <dd>{{ profile_user.email }}</dd>
+        <dt>Ім'я та прізвище</dt>
+        <dd>{{ profile_user.first_name }} {{ profile_user.last_name }}</dd>
+        {% if profile_user.birth_date %}
+        <dt>Дата народження</dt>
+        <dd>{{ profile_user.birth_date|date:"d.m.Y" }}</dd>
+        {% endif %}
+    </dl>
+
+    <div class="auth-page__actions">
+        <a href="{% url 'forum:home' %}" class="btn btn--primary">На головну</a>
+        <a href="{% url 'forum:profile' %}" class="btn btn--outline">Профіль</a>
+        <a href="{% url 'forum:profile_edit' %}" class="btn btn--outline">Редагувати профіль</a>
+        <form method="post" action="{% url 'forum:logout' %}" class="inline-form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn--danger">Вийти</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

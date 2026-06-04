@@ -1,11 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
+from .forms import ForumUserChangeForm, ForumUserCreationForm
 from .models import Category, Comment, CommentLike, Post, PostLike, User
 
 
 @admin.register(User)
 class ForumUserAdmin(UserAdmin):
+    form = ForumUserChangeForm
+    add_form = ForumUserCreationForm
     list_display = ("nickname", "email", "first_name", "last_name", "is_staff")
     search_fields = ("nickname", "email", "first_name", "last_name")
     ordering = ("nickname",)
