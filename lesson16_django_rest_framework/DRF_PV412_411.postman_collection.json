@@ -1,0 +1,226 @@
+{
+  "info": {
+    "_postman_id": "0ae04b5f-ec8b-4169-a142-ce512fce8a88",
+    "name": "DRF_PV412_411",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30561330"
+  },
+  "item": [
+    {
+      "name": "Simple",
+      "item": [
+        {
+          "name": "Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/simple/",
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "api",
+                "simple",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "echo",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\":\"user1\",\r\n    \"userId\": \"{{$guid}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/api/simple/",
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "api",
+                "simple",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{$guid}}",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "Products",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"price\":1000,\r\n    \"categoryId\":\"ea64f605-1af9-436e-b0f6-668bd331524f\",\r\n    \"translations\": [\r\n        {\r\n            \"languageCode\": \"en\",\r\n            \"name\": \"Fortification blocks\",\r\n            \"description\": \"Engineering systems:\\n• ventilation: supply and exhaust general exchange, equipped with a heating element.\\n• lighting: LED lamps in accordance with sanitary standards, materials for full connection, emergency lighting with battery power, \\\"Entrance\\\" / \\\"Exit\\\" signs with autonomous power; electric surface-mounted panel with an electricity meter.\\n\\nFacilities:\\n• Benches for sitting.\\n• Anti-blast device.\\n• Portable bio-toilet.\\n• Autonomous power supply.\\n• Automatic electronic locks.\\n• Heaters.\\n• Fire shield (shovel, axe, hook, crowbar, cone bucket, sand box 40×40×70).\\n• Fire extinguisher.\\n• Medical first aid kit.\\n• Water container.\\n• Video surveillance camera.\\n• Equipment for Wi-Fi access point.\\n\\nThe configuration of the primary (mobile) shelter can be changed and/or supplemented with additional devices and equipment at the request of the customer.\"\r\n        },\r\n        {\r\n            \"languageCode\": \"ua\",\r\n            \"name\": \"Фортифікаційні блоки\",\r\n            \"description\": \"Інженерні системи:\\n• вентиляція: припливно-витяжна загальнообмінна, обладнана нагрівальним елементом.\\n• освітлення: світлодіодні світильники відповідно до санітарних норм, матеріали для повного підключення, аварійне освітлення з акумуляторним живленням, таблички «Вхід» / «Вихід» з автономним живленням; електричний накладний щит з лічильником електричної енергії.\\n\\nОблаштування:\\n• Лавки для сидіння.\\n• Проти вибуховий пристрій.\\n• Портативний біотуалет.\\n• Автономне живлення.\\n• Автоматичні електронні замки.\\n• Обігрівачі.\\n• Пожежний щит (лопата, сокира, багор, лом, конусне відро, ящик для піску 40×40×70).\\n• Вогнегасник.\\n• Медична аптечка.\\n• Ємність для води.\\n• Камера відеоспостереження.\\n• Обладнання для точки доступу Wi-Fi.\\n\\nКомплектація первинного (мобільного) укриття може бути змінена та/чи доповнена додатковими приладами та обладнанням за бажанням замовника.\"\r\n        }\r\n    ],\r\n    \"productProperties\": [\r\n        \"5bc4a551-5aca-4ddc-885a-92faee360336\"\r\n    ]\r\n    // \"additionalServices\":[\r\n    //     \"3ad1995a-88e3-4590-bc15-ddf39b16c394\",\r\n    //     \"4493d65a-c19b-43e1-a954-f7a91dd2a3bb\",\r\n    //     \"9f4ea1bc-7bb1-4f64-a3a5-4d2c5ae9ff7c\",\r\n    //     \"dac12418-fb03-4169-8f24-b532acc1c12a\",\r\n    //     \"de8f5728-37b0-489b-ba06-b2bb359cbbc6\"\r\n    // ]\r\n}"
+            },
+            "url": {
+              "raw": "{{host}}/api/product",
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "api",
+                "product"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ProductByID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{host}}/api/product/d6c03195-ccea-495e-9e6b-d8d41dc53078",
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                "d6c03195-ccea-495e-9e6b-d8d41dc53078"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Product",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\"title-{{$randomPhoneNumber}}\",\r\n    \"price\":{{$randomPrice}},\r\n    \"description\":\"{{$randomLoremParagraph}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{host}}/api/product/",
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Product",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "title",
+                  "value": "NewProduct",
+                  "type": "text",
+                  "uuid": "6fb15a7a-1b91-4ba8-b3f6-fdd09cf8c150"
+                },
+                {
+                  "key": "price",
+                  "value": "{{$randomPrice}}",
+                  "type": "text",
+                  "uuid": "d0a0d841-cf42-4c66-9073-a7cdc13987be"
+                },
+                {
+                  "key": "description",
+                  "value": "{{$randomLoremParagraph}}",
+                  "type": "text",
+                  "uuid": "83addf61-389f-47c2-a1e5-fa6b0e85eb25"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{host}}/api/product/d6c03195-ccea-495e-9e6b-d8d41dc53078",
+              "host": [
+                "{{host}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                "d6c03195-ccea-495e-9e6b-d8d41dc53078"
+              ],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "NewProduc",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": ""
+    }
+  ]
+}
