@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .serializers import ProductSerializer, ProductModelSerializer, TaskSerializer
 from .models import Product, Task
+from .paginations import ProductListPagination
 
 '''
 APIView
@@ -30,13 +31,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductModelSerializer
     permission_classes = [AllowAny]
-    
-    # list - сюди приходять запити саме до вибірки, і в цьому методі ми можемо створити якийсь механізм, нарпиклад власна обробка
-    # retrieve - сюди приходять запити до конкректного екземпляру, і в цьому методі ми можемо створити якийсь механізм, нарпиклад власна обробка
-    
-    def list(self, request, *args, **kwargs):
-        print(request)
-        return super().list(request, *args, **kwargs)
+    pagination_class = ProductListPagination
 
 class ProductView(APIView):
     def get(self, request:Request, id):
