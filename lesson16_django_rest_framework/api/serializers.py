@@ -1,5 +1,35 @@
+from django.utils import timezone
 from rest_framework import serializers
-from .models import Product
+
+from .models import Product, Task
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    taskId = serializers.UUIDField(source="id", read_only=True)
+    days_until_deadline = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Task
+        fields = [
+            "taskId",
+            "title",
+            "description",
+            "deadline",
+            "is_completed",
+            "created_at",
+            "days_until_deadline",
+        ]
+        read_only_fields = ["created_at"]
+
+    def get_days_until_deadline(self, instance: Task) -> int:
+        return (instance.deadline - timezone.localdate()).days
+
+    def validate_deadline(self, value):
+        if self.instance is None and value < timezone.localdate():
+            raise serializers.ValidationError(
+                "Deadline cannot be in the past."
+            )
+        return value
 
 # 01.06 Smart Serializer
 class ProductModelSerializer(serializers.ModelSerializer):

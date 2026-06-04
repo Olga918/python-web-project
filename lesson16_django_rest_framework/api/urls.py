@@ -5,6 +5,7 @@ from django.urls import path, include
 from . import views
 
 router = DefaultRouter()
+router.register("tasks", viewset=views.TaskViewSet, basename="tasks_view_set")
 router.register("products", viewset=views.ProductViewSet, basename="products_view_set")
 
 urlpatterns = [

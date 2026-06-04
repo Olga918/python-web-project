@@ -7,8 +7,8 @@ from rest_framework.permissions import AllowAny
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from .serializers import ProductSerializer, ProductModelSerializer
-from .models import Product
+from .serializers import ProductSerializer, ProductModelSerializer, TaskSerializer
+from .models import Product, Task
 
 '''
 APIView
@@ -18,6 +18,13 @@ APIView
     def patch
     def delete
 '''
+
+class TaskViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = [AllowAny]
+    lookup_field = "id"
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
